@@ -1,5 +1,6 @@
-const nodeExternals = require('webpack-node-externals');
-const path = require('path');
+const nodeExternals = require("webpack-node-externals")
+const CopyPlugin = require("copy-webpack-plugin")
+const path = require("path")
 
 const {
   NODE_ENV = 'production',
@@ -26,5 +27,12 @@ module.exports = {
       }
     ]
   },
-  externals: [ nodeExternals() ]
+  externals: [ nodeExternals() ],
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        "./src/db/db.json"
+      ]
+    })
+  ]
 }

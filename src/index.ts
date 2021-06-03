@@ -1,7 +1,3 @@
-import app from "./server"
-
+import { runServer } from "./server";
 const { PORT = 9000 } = process.env;
-
-app.listen(PORT, () => {
-  console.info(`server started at http://localhost:${PORT}`);
-});
+runServer(PORT as number).catch(e => console.error(e))
