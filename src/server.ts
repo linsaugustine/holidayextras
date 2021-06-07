@@ -1,4 +1,6 @@
 import express, { Request, Response, NextFunction } from "express"
+import { HttpException } from "./exceptions/HttpException"
+import usersRouter from "./routes/userRoutes"
 
 export const runServer = async (port: number) => {
   if (!port) {
@@ -7,25 +9,21 @@ export const runServer = async (port: number) => {
 
   const apiPath = "/api/v1";
   const app = express();
-
-  const server = app.listen(port, () => {
-    console.info(`server started at http://localhost:${port}`);
-  });
-
- // app.use(apiPath, authorsRouter);
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
+  app.use(apiPath, usersRouter);
 
   app.get('/', (req: Request, res: Response) => {
     res.send("Linson Augustine");
   });
 
-  app.use((error, req: Request, res: Response, next: NextFunction) => {
-    res.status(error.status || 500);
-    
-    res.json({
-      status: error.status,
-      message: error.message,
-      ...(process.env.NODE_ENV === "dev" && { stack: error.stack }),
-    });
+  app.use((error: HttpException, req: Request, res: Response, next: NextFunction) => {
+    const statusCode = error.status || 500
+    res.status(statusCode).json({ status: statusCode, message: error.message })
+  })
+
+  const server = app.listen(port, () => {
+    console.info(`server started at http://localhost:${port}`);
   });
 
   return server;

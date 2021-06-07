@@ -31,7 +31,7 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        "./src/db/db.json"
+        "./db/db.json"
       ]
     })
   ]
