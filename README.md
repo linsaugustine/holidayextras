@@ -1,5 +1,13 @@
 # Node server for adding listing, updating user info
 
+# Installation
+
+```
+1. Clone the repo
+2. npm install
+3. npm run start-dev
+```
+
 # Add User - sample
 
 ```
